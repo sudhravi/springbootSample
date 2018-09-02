@@ -3,7 +3,6 @@ stages:
   - cleanup_build
   - test
   - deploy
-  - cleanup
 
 build_job:
   stage: build
@@ -26,9 +25,3 @@ deploy_job:
   script:
     - echo make deploy
   when: manual
-
-cleanup_job:
-  stage: cleanup
-  script:
-    - echo cleanup after jobs
-  when: always

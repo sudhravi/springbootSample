@@ -4,10 +4,10 @@ services:
   - docker:dind
 
 variables:
-  docker_repo: sudarsan935
-  image_name: demo
-  tag: 3.0
-  
+  DOCKER_REPO: sudarsan935
+  IMAGE_NAME: demo
+  TAG: 3.0
+    
 stages:
   - build
   - docker_build
@@ -25,6 +25,6 @@ build_job:
 docker_build_job:
   stage: docker_build
   script:
-    - docker build -t $docker_repo/$image_name:$tag .
+    - docker build -t $DOCKER_REPO/$IMAGE_NAME:$TAG .
     - docker login -u sudarsan935 -p $docker_pwd
-    - docker push $docker_repo/$image_name:$tag
+    - docker push $DOCKER_REPO/$IMAGE_NAME:$TAG

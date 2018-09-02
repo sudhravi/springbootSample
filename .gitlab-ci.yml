@@ -4,9 +4,10 @@ services:
   - docker:dind
 
 variables:
-  - docker_repo: sudarsan935
-  - image_name: demo
-  - tag: 3.0
+  docker_repo: sudarsan935
+  image_name: demo
+  tag: 3.0
+  
 stages:
   - build
   - docker_build

@@ -1,0 +1,34 @@
+stages:
+  - build
+  - cleanup_build
+  - test
+  - deploy
+  - cleanup
+
+build_job:
+  stage: build
+  script:
+    - echo build
+
+cleanup_build_job:
+  stage: cleanup_build
+  script:
+    - echo cleanup build when failed
+  when: on_failure
+
+test_job:
+  stage: test
+  script:
+    - echo make test
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo make deploy
+  when: manual
+
+cleanup_job:
+  stage: cleanup
+  script:
+    - echo cleanup after jobs
+  when: always

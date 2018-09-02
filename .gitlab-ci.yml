@@ -1,27 +1,30 @@
+variables:
+  - docker_repo: sudarsan935
+  - image_name: demo
+  - tag: 3.0
+  
+image: docker:latest
+
+services:
+  - docker:dind
+  
 stages:
   - build
-  - cleanup_build
-  - test
-  - deploy
+  - docker_build
 
 build_job:
+  image: maven-3-jdk-8
   stage: build
   script:
-    - echo build
-
-cleanup_build_job:
-  stage: cleanup_build
+    - mvn package
+  artifact:
+    paths:
+      - Dockerfile
+      - target/*.jar
+      
+docker_build_job:
+  stage: docker_build
   script:
-    - echo cleanup build when failed
-  when: on_failure
-
-test_job:
-  stage: test
-  script:
-    - echo make test
-
-deploy_job:
-  stage: deploy
-  script:
-    - echo make deploy
-  when: manual
+    - docker build -t $docker_repo/$image_name:$tag .
+    - docker login -u sudarsan935 -p $docker_pwd
+    - docker push $docker_repo/$image_name:$tag

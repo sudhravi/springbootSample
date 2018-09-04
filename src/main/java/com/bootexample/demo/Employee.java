@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,8 +17,13 @@ public class Employee{
 	@GeneratedValue
 	private Long id;
 	private String name;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JsonIgnore
+	
+	@Transient
+	private Long dept_id;
+	
+	
+	@ManyToOne
+	
 	private Department department;
 	
 	Employee(){
@@ -44,5 +51,9 @@ public class Employee{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Long getDept_id() {
+		return this.department.getId();
+	}
+	
 
 }

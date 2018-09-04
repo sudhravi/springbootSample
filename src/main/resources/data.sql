@@ -1,12 +1,12 @@
 
 insert into department
-values(1,'CS');
+values(3,'CS');
 
 insert into department
-values(2,'Mech');
+values(4,'Mech');
 
 insert into employee
-values(1,'Ranga',1);
+values(1,'Ranga',4);
 
 insert into employee
-values(2,'Ravi',2);
+values(2,'Ravi',3);

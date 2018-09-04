@@ -3,6 +3,9 @@ package com.bootexample.demo;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,6 +24,9 @@ public class EmployeeResource {
 	
 @Autowired
 private EmployeeRepository employeeRepository;
+
+@Autowired
+private DepartmentRepository departmentRepository;
 
 @GetMapping("/employee")
 public List<Employee> retrieveAll(){
@@ -36,7 +43,19 @@ public Employee retrieveEmployee(@PathVariable long id) {
 	return employee.get();
 }
 
-
+@GetMapping("/employeename")
+public Employee retrieveEmployeeByName(@RequestParam(value="name") String name) {
+	Employee emp=new Employee();
+	employeeRepository.findAll().stream().map(x->{
+		if(x.getName().equals(name)) {
+		emp.setId(x.getId());
+		emp.setName(x.getName());
+		}
+		return emp;
+	});
+	return emp;
+	
+}
 @PostMapping("/employee")
 public ResponseEntity<Object> createEmployee(@RequestBody Employee employee) {
 	Employee savedEmployee = employeeRepository.save(employee);
@@ -65,5 +84,12 @@ public Employee updateStudent(@RequestBody Employee employee, @PathVariable long
 
 	return employeeRepository.save(employee);
 }
-
+@GetMapping("/employees/{name}")
+public Employee retrieveByName(@PathVariable String name) {
+	return employeeRepository.findByName(name);
+}
+@GetMapping("/employeedepartment/{name}")
+public List<Employee> retrieveByDepartment(@PathVariable String name) {
+	return  employeeRepository.findByDepartment(departmentRepository.findByName(name));
+}
 }
